@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'sinatra/cors'
 require 'sqlite3'
@@ -10,10 +12,10 @@ DB = SQLite3::Database.new 'reception_database.db'
 set :port, 4567
 
 # Configure CORS
-set :allow_origin, "*"
-set :allow_methods, "GET,POST,OPTIONS"
-set :allow_headers, "content-type,if-modified-since"
-set :expose_headers, "location,link"
+set :allow_origin, '*'
+set :allow_methods, 'GET,POST,OPTIONS'
+set :allow_headers, 'content-type,if-modified-since'
+set :expose_headers, 'location,link'
 
 # Handle CORS preflight requests
 options '*' do
@@ -33,9 +35,6 @@ post '/receive_data' do
     logger.error "Failed to parse JSON: #{e.message}"
     halt 400, { error: 'Invalid JSON' }.to_json
   end
-puts '---------'
-  puts request_payload
-  puts "-----this is the payload"
   user_id = request_payload['user_id']
   dob = request_payload['dob']
   hobbies = request_payload['hobbies']
@@ -43,7 +42,9 @@ puts '---------'
   accessibilities = request_payload['accessibilities']
 
   # Retrieve the existing record for the user
-  existing_user = DB.execute("SELECT id, dob, hobbies, dietary_restrictions, accessibilities FROM user_data WHERE user_id = ?", [user_id]).first
+  existing_user = DB.execute(
+    'SELECT id, dob, hobbies, dietary_restrictions, accessibilities FROM user_data WHERE user_id = ?', [user_id]
+  ).first
 
   if existing_user
     # Update only the provided fields while preserving the existing data for others
@@ -52,12 +53,13 @@ puts '---------'
     existing_dietary_restrictions = dietary_restrictions ? dietary_restrictions.join(',') : existing_user[3]
     existing_accessibilities = accessibilities ? accessibilities.join(',') : existing_user[4]
 
-    DB.execute("UPDATE user_data SET dob = ?, hobbies = ?, dietary_restrictions = ?, accessibilities = ? WHERE user_id = ?", 
+    DB.execute('UPDATE user_data SET dob = ?, hobbies = ?, dietary_restrictions = ?, accessibilities = ? WHERE user_id = ?',
                [existing_dob, existing_hobbies, existing_dietary_restrictions, existing_accessibilities, user_id])
   else
     # Insert a new record if the user doesn't exist
-    DB.execute("INSERT INTO user_data (user_id, dob, hobbies, dietary_restrictions, accessibilities) VALUES (?, ?, ?, ?, ?)", 
-               [user_id, dob, hobbies ? hobbies.join(',') : '', dietary_restrictions ? dietary_restrictions.join(',') : '', accessibilities ? accessibilities.join(',') : ''])
+    DB.execute('INSERT INTO user_data (user_id, dob, hobbies, dietary_restrictions, accessibilities) VALUES (?, ?, ?, ?, ?)',
+               [user_id, dob, hobbies ? hobbies.join(',') : '',
+                dietary_restrictions ? dietary_restrictions.join(',') : '', accessibilities ? accessibilities.join(',') : ''])
   end
 
   content_type :json

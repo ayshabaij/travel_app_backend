@@ -1,18 +1,28 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ast (2.4.2)
     base64 (0.2.0)
     google_maps_service (0.4.2)
       hurley (~> 0.1)
       multi_json (~> 1.11)
       retriable (~> 2.0)
     hurley (0.2)
+    json (2.7.2)
+    language_server-protocol (3.17.0.3)
     multi_json (1.15.0)
     mustermann (3.0.2)
       ruby2_keywords (~> 0.0.1)
+    net-http (0.4.1)
+      uri
     nio4r (2.7.3)
+    parallel (1.26.3)
+    parser (3.3.4.2)
+      ast (~> 2.4.1)
+      racc
     puma (6.4.2)
       nio4r (~> 2.0)
+    racc (1.8.1)
     rack (3.1.7)
     rack-protection (4.0.0)
       base64 (>= 0.1.0)
@@ -22,7 +32,25 @@ GEM
     rackup (2.1.0)
       rack (>= 3)
       webrick (~> 1.8)
+    rainbow (3.1.1)
+    regexp_parser (2.9.2)
     retriable (2.1.0)
+    rexml (3.3.5)
+      strscan
+    rubocop (1.65.1)
+      json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
+      parallel (~> 1.10)
+      parser (>= 3.3.0.2)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 2.4, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.32.0)
+      parser (>= 3.3.1.0)
+    ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     sinatra (4.0.0)
       mustermann (~> 3.0)
@@ -33,7 +61,10 @@ GEM
     sinatra-cors (1.2.0)
     sqlite3 (2.0.4-arm64-darwin)
     sqlite3 (2.0.4-x86_64-darwin)
+    strscan (3.1.0)
     tilt (2.4.0)
+    unicode-display_width (2.5.0)
+    uri (0.13.0)
     webrick (1.8.1)
 
 PLATFORMS
@@ -42,8 +73,10 @@ PLATFORMS
 
 DEPENDENCIES
   google_maps_service
+  net-http
   puma (~> 6.0)
   rackup
+  rubocop
   sinatra
   sinatra-cors
   sqlite3
