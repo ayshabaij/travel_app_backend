@@ -54,16 +54,16 @@ def get_location_from_geocoder(address)
   puts "Starting geocode for address: #{address.inspect}"
 
   result = Geocoder.search(address).first
-  if result && result.address.include?('South Korea')
+  if result&.address&.include?('South Korea')
     puts "Geocode successful: #{result.address}"
-    return result.address
+    result.address
   else
     puts 'The address is not in South Korea. Please provide a valid address in South Korea.'
-    return nil
+    nil
   end
 rescue StandardError => e
   puts "Error occurred while trying to geocode the address: #{e.message}"
-  return nil
+  nil
 end
 
 post '/receive_trip_data' do
@@ -89,7 +89,8 @@ post '/receive_trip_data' do
     accessibilities = user_data[3].split(',')
 
     # Create User object with all the gathered information
-    user = User.new(hobbies, date_of_birth, dietary_restrictions, accessibilities, [start_date, end_date], budget, address)
+    user = User.new(hobbies, date_of_birth, dietary_restrictions, accessibilities, [start_date, end_date], budget,
+                    address)
 
     # Validate the user's location
     validated_location = get_location_from_geocoder(user.current_location)

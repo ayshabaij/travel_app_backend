@@ -14,14 +14,14 @@ set :port, 4567
 # Configure CORS
 set :allow_origin, '*'
 set :allow_methods, 'GET,POST,OPTIONS'
-set :allow_headers, 'content-type,if-modified-since'
+set :allow_headers, 'content-type,if-modified-since,x-csrf-token' # Added 'x-csrf-token' here
 set :expose_headers, 'location,link'
 
 # Handle CORS preflight requests
 options '*' do
   response.headers['Access-Control-Allow-Origin'] = '*'
   response.headers['Access-Control-Allow-Methods'] = 'GET,POST,OPTIONS'
-  response.headers['Access-Control-Allow-Headers'] = 'content-type,if-modified-since'
+  response.headers['Access-Control-Allow-Headers'] = 'content-type,if-modified-since,x-csrf-token' # Added 'x-csrf-token' here
   200
 end
 
