@@ -65,13 +65,13 @@ SQL
 
 DB.execute <<-SQL
   INSERT INTO locations (hobby_id, location)
-  SELECT (SELECT id FROM hobbies WHERE name = 'Swimming'), 'Seoul Olympic Park' WHERE NOT EXISTS 
+  SELECT (SELECT id FROM hobbies WHERE name = 'Swimming'), 'Seoul Olympic Park' WHERE NOT EXISTS#{' '}
   (SELECT 1 FROM locations WHERE hobby_id = (SELECT id FROM hobbies WHERE name = 'Swimming') AND location = 'Seoul Olympic Park');
 SQL
 
 DB.execute <<-SQL
   INSERT INTO locations (hobby_id, location)
-  SELECT (SELECT id FROM hobbies WHERE name = 'Running'), 'Han River Park' WHERE NOT EXISTS 
+  SELECT (SELECT id FROM hobbies WHERE name = 'Running'), 'Han River Park' WHERE NOT EXISTS#{' '}
   (SELECT 1 FROM locations WHERE hobby_id = (SELECT id FROM hobbies WHERE name = 'Running') AND location = 'Han River Park');
 SQL
 
